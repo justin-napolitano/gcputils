@@ -39,14 +39,14 @@ The benefit of doing this is that the code can be reused across every project wi
 
 Documentation Source: ```https://cloud.google.com/python/docs/reference/storage/latest```
 
-## Install Google Cloud Storage for Python
+### Install Google Cloud Storage for Python
 
 Run the following 
 ```bash 
 pip install google-cloud-storage
 ```
 
-## Create the Credentials File for the Application
+### Create the Credentials File for the Application
 
 src = ```https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-python```
 
