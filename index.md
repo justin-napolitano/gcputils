@@ -2,7 +2,7 @@
 title =  "Creating a GCP Client Tool"
 date = "2024-04-27"
 description = "GCP Submodules for repetitive tasks"
-author = "Cobra"
+author = "Justin Napolitano"
 tags = ['git', 'python', 'submodules', 'automation','workflow']
 +++
 
@@ -39,7 +39,12 @@ mkdir gcpuptils
 
 In my example i created a repo at ```https://github.com/justin-napolitano/gcputils.git```
 
-to importrun ``` git submodule add -b pit https://github.com/justin-napolitano/gcputils.git``` to import the latest repo into your current project. 
+Run the following to import the latest repo into your current project. 
+
+```bash
+git submodule add -b pit https://github.com/justin-napolitano/gcputils.git
+
+``` 
 
 The benefit of doing this is that the code can be reused across every project without having to worry about broken development tress.  
 
