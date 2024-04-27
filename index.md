@@ -30,9 +30,49 @@ mkdir gcpuptils
 
 In my example i created a repo at ```https://github.com/justin-napolitano/gcputils.git```
 
-to importrun ``` git submodule add -b main https://github.com/justin-napolitano/gcputils.git``` to import the latest repo into your current project. 
+to importrun ``` git submodule add -b pit https://github.com/justin-napolitano/gcputils.git``` to import the latest repo into your current project. 
 
 The benefit of doing this is that the code can be reused across every project without having to worry about broken development tress.  
 
 
+## Using Google Cloud Storage for Python
 
+Documentation Source: ```https://cloud.google.com/python/docs/reference/storage/latest```
+
+## Install Google Cloud Storage for Python
+
+Run the following 
+```bash 
+pip install google-cloud-storage
+```
+
+## Create the Credentials File for the Application
+
+src = ```https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-python```
+
+Run the following and follow the prompts
+
+```bash
+gcloud auth application-default login
+```
+
+
+
+## Initializing a client and creating a bucket to test
+
+Source : ```https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.client.Client```
+
+```python
+project_id = '{YOUR PROJECT}'
+gcs = GCSClient(project_id, credentials_path=None)
+
+# List buckets to test client authorization
+buckets = gcs.list_buckets()
+print("Buckets:", buckets)
+
+# creating a new bucket if it doesn't exist
+bucket_name = "loc-scraper"
+
+bucket = gcs.create_bucket(bucket_name=bucket_name)
+print(bucket)
+```
