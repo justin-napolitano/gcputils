@@ -1,3 +1,12 @@
++++
+title =  "Creating a GCP Client Tool"
+date = "2024-04-27"
+description = "GCP Submodules for repetitive tasks"
+author = "Cobra"
+tags = ['git', 'python', 'submodules', 'automation','workflow']
++++
+
+
 # Creating a GCP Client Tool in Python
 
 ## Why
