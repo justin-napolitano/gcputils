@@ -61,14 +61,15 @@ class GCSClient:
         else:
             return f"Bucket '{bucket_name}' already exists."
         
-    def upload_to_bucket_from_memory(self, bucket, source_string, destination_blob_name):
+    def put_blob_from_string(self, bucket, source_string, destination_blob_name, overwrite=False):
         """
         Uploads an object to a blob in a Google Cloud Storage bucket.
 
         Args:
             bucket (str or google.cloud.storage.Bucket): The name of the bucket or an already instantiated bucket object.
-            source_object (str, bytes, file-like object): The object to be uploaded.
+            source_string (str): The object to be uploaded.
             destination_blob_name (str): The name to give to the uploaded file in the bucket.
+            overwrite (bool, optional): Whether to overwrite an existing blob if it already exists. Default is False.
 
         Returns:
             str: The URL of the uploaded object.
@@ -78,8 +79,40 @@ class GCSClient:
         if isinstance(bucket, str):
             bucket = self.client.bucket(bucket)
         blob = bucket.blob(destination_blob_name)
+
+        # Check if the blob exists and overwrite is False
+        if blob.exists() and not overwrite:
+            print(f"Blob '{destination_blob_name}' already exists. To overwrite, set overwrite=True.")
+            return blob
+    
+
+        # Upload the blob
         blob.upload_from_string(source_string)
-        return f"Object uploaded to {destination_blob_name} in bucket {bucket.name}"
+
+        print(f"Object uploaded to {destination_blob_name} in bucket {bucket.name}")
+        print(blob)
+        return blob
+    
+    def get_blob(self, bucket_name, source_blob_name, destination_file_name):
+        """
+        Downloads a blob from the specified bucket in Google Cloud Storage.
+
+        Args:
+            bucket_name (str): Name of the bucket.
+            source_blob_name (str): Name of the blob in the bucket.
+            destination_file_name (str): File name to save the blob as locally.
+        """
+        # Get the bucket
+        bucket = self.client.bucket(bucket_name)
+
+        # Get the blob
+        blob = bucket.blob(source_blob_name)
+
+        # Download the blob to a file
+        blob.download_to_filename(destination_file_name)
+
+        print(f"Blob '{source_blob_name}' downloaded to '{destination_file_name}'.")
+        return blob
 
 # Example usage:
 
