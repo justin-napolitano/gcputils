@@ -1,5 +1,6 @@
 from google.cloud import storage
 import os
+import logging
 
 class GCSClient:
     def __init__(self, project_id, credentials_path=None):
