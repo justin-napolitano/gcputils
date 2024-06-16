@@ -4,6 +4,7 @@ date = "2024-04-27"
 description = "GCP Submodules for repetitive tasks"
 author = "Justin Napolitano"
 tags = ['git', 'python', 'submodules', 'automation','workflow']
+images = ["images/feature-hugo.png"]
 +++
 
 
