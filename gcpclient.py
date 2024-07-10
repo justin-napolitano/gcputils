@@ -1,6 +1,7 @@
 from google.cloud import storage
 import os
 import logging
+import re
 
 class GCSClient:
     def __init__(self, project_id, credentials_path=None):
@@ -136,16 +137,24 @@ class GCSClient:
         blob_names = [blob.name for blob in blobs]
         return blob_names
 
-    def pop_blob(self, bucket_name):
+    def pop_blob(self, bucket_name, patterns_file = None):
         """
-        Selects and removes the first blob from the specified bucket in Google Cloud Storage.
+        Selects and removes the first blob from the specified bucket in Google Cloud Storage,
+        excluding any blobs that match patterns from the provided file.
 
         Args:
             bucket_name (str): Name of the bucket.
+            patterns_file (str, optional): Path to the file containing regex patterns to exclude.
 
         Returns:
-            google.cloud.storage.blob.Blob: The first blob from the bucket.
+            google.cloud.storage.blob.Blob: The first blob from the bucket that doesn't match any pattern.
         """
+        # Load regex patterns from file
+        patterns = []
+        if patterns_file:
+            with open(patterns_file, 'r') as file:
+                patterns = [line.strip() for line in file]
+
         # Get the bucket
         bucket = self.client.bucket(bucket_name)
         
@@ -156,11 +165,71 @@ class GCSClient:
             print(f"No blobs found in bucket '{bucket_name}'.")
             return None
 
-        # Get the first blob
-        first_blob = blobs[0]
+        # Filter blobs based on regex patterns
+        for blob in blobs:
+            if not any(re.search(pattern, blob.name) for pattern in patterns):
+                print(f"First valid blob selected: {blob.name}")
+                return blob
+
+        print("No valid blobs found after applying regex patterns.")
+        return None
+
+    def download_blob_to_memory(self, bucket_name, blob_name):
+        """
+        Downloads a blob from the specified bucket to memory.
+
+        Args:
+            bucket_name (str): Name of the bucket.
+            blob_name (str): Name of the blob to download.
+
+        Returns:
+            string: The string content of the blob.
+        """
+        # Get the bucket
+        bucket = self.client.bucket(bucket_name)
         
-        print(f"First blob selected: {first_blob.name}")
-        return first_blob
+        # Get the blob
+        blob = bucket.blob(blob_name)
+
+        # Download the blob to a string
+        blob_data = blob.download_as_string()
+        
+        # Parse the JSON content
+        # json_content = json.loads(blob_data)
+        
+        print(f"Blob '{blob_name}' downloaded to memory.")
+        return blob_data
+    
+    def copy_blob(self, source_bucket_name, source_blob_name, destination_bucket_name, destination_blob_name):
+        """
+        Copies a blob from one bucket to another.
+
+        Args:
+            source_bucket_name (str): Name of the source bucket.
+            source_blob_name (str): Name of the source blob.
+            destination_bucket_name (str): Name of the destination bucket.
+            destination_blob_name (str): Name of the destination blob.
+
+        Returns:
+            google.cloud.storage.blob.Blob: The copied blob.
+        """
+        source_bucket = self.client.bucket(source_bucket_name)
+        source_blob = source_bucket.blob(source_blob_name)
+        destination_bucket = self.client.bucket(destination_bucket_name)
+        blob_copy = source_bucket.copy_blob(source_blob, destination_bucket, destination_blob_name)
+        return blob_copy
+
+    def delete_blob(self, bucket_name, blob_name):
+        """
+        Deletes a blob from the specified bucket.
+
+        Args:
+            bucket_name (str): Name of the bucket.
+            blob_name (str): Name of the blob to delete.
+        """
+        bucket = self.client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        blob.delete()
 
 
 # Example usage:
@@ -178,16 +247,14 @@ def test():
     blob_names = gcs.list_blobs("your-bucket-name")
     print("Blobs in bucket:", blob_names)
 
-    # Pop the first blob from a specific bucket
-    first_blob = gcs.pop_blob("your-bucket-name")
+    # Pop the first valid blob from a specific bucket, excluding blobs that match patterns in patterns.txt
+    first_blob = gcs.blob_pop("your-bucket-name", "patterns.txt")
     if first_blob:
-        print(f"First blob name: {first_blob.name}")
+        print(f"First valid blob name: {first_blob.name}")
+        
+        # Download the JSON content of the first valid blob to memory
+        json_content = gcs.download_blob_to_memory("your-bucket-name", first_blob.name)
+        print("JSON content of the first valid blob:", json_content)
 
 if __name__ == "__main__":
     test()
-
-
-
-if __name__ == "__main__":
-    test()
-

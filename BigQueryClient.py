@@ -104,6 +104,27 @@ class BigQueryClient:
         load_job.result()
         print(f"Loaded {load_job.output_rows} rows into {dataset_id}:{table_id}.")
         return load_job
+    
+    def load_dataframe_to_table(self, dataset_id, table_id, dataframe):
+        """
+        Loads a Pandas DataFrame to a BigQuery table.
+
+        Args:
+            dataset_id (str): The dataset ID where the table exists.
+            table_id (str): The table ID where data will be loaded.
+            dataframe (pd.DataFrame): The DataFrame to load into the table.
+
+        Returns:
+            google.cloud.bigquery.job.LoadJob: The load job.
+        """
+        table_ref = self.client.dataset(dataset_id).table(table_id)
+        job_config = bigquery.LoadJobConfig()
+        job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+
+        load_job = self.client.load_table_from_dataframe(dataframe, table_ref, job_config=job_config)
+        load_job.result()
+        print(f"Loaded {load_job.output_rows} rows into {dataset_id}:{table_id}.")
+        return load_job
 
 # Example usage:
 
