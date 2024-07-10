@@ -24,6 +24,7 @@ class GCSClient:
             google.cloud.storage.Client: The initialized Google Cloud Storage client.
         """
         if self.credentials_path:
+            print("trying creds file")
             client = storage.Client.from_service_account_json(self.credentials_path)
         else:
             client = storage.Client(project=self.project_id)
