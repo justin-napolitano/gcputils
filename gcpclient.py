@@ -116,18 +116,75 @@ class GCSClient:
 
         print(f"Blob '{source_blob_name}' downloaded to '{destination_file_name}'.")
         return blob
+    
+    def list_blobs(self, bucket_name):
+        """
+        Lists all blobs in the specified bucket in Google Cloud Storage.
+
+        Args:
+            bucket_name (str): Name of the bucket.
+
+        Returns:
+            list: A list of blob names.
+        """
+        # Get the bucket
+        bucket = self.client.bucket(bucket_name)
+        
+        # List all blobs in the bucket
+        blobs = list(bucket.list_blobs())
+        
+        blob_names = [blob.name for blob in blobs]
+        return blob_names
+
+    def pop_blob(self, bucket_name):
+        """
+        Selects and removes the first blob from the specified bucket in Google Cloud Storage.
+
+        Args:
+            bucket_name (str): Name of the bucket.
+
+        Returns:
+            google.cloud.storage.blob.Blob: The first blob from the bucket.
+        """
+        # Get the bucket
+        bucket = self.client.bucket(bucket_name)
+        
+        # List all blobs in the bucket
+        blobs = list(bucket.list_blobs())
+        
+        if not blobs:
+            print(f"No blobs found in bucket '{bucket_name}'.")
+            return None
+
+        # Get the first blob
+        first_blob = blobs[0]
+        
+        print(f"First blob selected: {first_blob.name}")
+        return first_blob
+
 
 # Example usage:
 
 def test():
-
-    project_id = os.environ.get("GCPPROJECTID")
+    project_id = os.environ.get("GCP_PROJECT_ID")
     # credentials_path = "path/to/your/credentials.json"  # Optional if using default credentials
     gcs = GCSClient(project_id, credentials_path=None)
 
     # List buckets
     buckets = gcs.list_buckets()
     print("Buckets:", buckets)
+
+    # List all blobs in a specific bucket
+    blob_names = gcs.list_blobs("your-bucket-name")
+    print("Blobs in bucket:", blob_names)
+
+    # Pop the first blob from a specific bucket
+    first_blob = gcs.pop_blob("your-bucket-name")
+    if first_blob:
+        print(f"First blob name: {first_blob.name}")
+
+if __name__ == "__main__":
+    test()
 
 
 
