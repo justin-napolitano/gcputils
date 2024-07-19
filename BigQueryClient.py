@@ -108,11 +108,11 @@ class BigQueryClient:
             google.cloud.bigquery.job.QueryJob: The query job.
         """
         query_job = self.client.query(query)
-        return query_job
-        # results = query_job.result()
-        # for row in results:
-        #     print(row)
-        # return results
+        # return query_job
+        results = query_job.result()
+        for row in results:
+            print(row)
+        return results
 
     def query_and_wait(self,query):
 
