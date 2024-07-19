@@ -1,4 +1,5 @@
 from google.cloud import bigquery
+from google.api_core.exceptions import NotFound
 import os
 
 class BigQueryClient:
@@ -47,6 +48,16 @@ class BigQueryClient:
         print(f"Dataset {dataset.dataset_id} created.")
         return dataset
 
+    # Function to check if a table exists
+    def table_exists(self, dataset_id, table_id):
+        try:
+            self.client.get_table(f"{dataset_id}.{table_id}")
+            return True
+        # except Exception as e
+        except NotFound :
+            # raise e
+            return False
+        
     def create_table(self, dataset_id, table_id, schema):
         """
         Creates a new table in the specified dataset in Google BigQuery.
@@ -119,7 +130,7 @@ class BigQueryClient:
         """
         table_ref = self.client.dataset(dataset_id).table(table_id)
         job_config = bigquery.LoadJobConfig()
-        job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+        job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
 
         load_job = self.client.load_table_from_dataframe(dataframe, table_ref, job_config=job_config)
         load_job.result()
