@@ -1,6 +1,8 @@
 from google.cloud import bigquery
 from google.api_core.exceptions import NotFound
 import os
+import logging
+from google.api_core.exceptions import GoogleAPIError
 
 class BigQueryClient:
     def __init__(self, project_id, credentials_path=None):
@@ -76,6 +78,24 @@ class BigQueryClient:
         table = self.client.create_table(table, exists_ok=True)
         print(f"Table {table.table_id} created in dataset {dataset_id}.")
         return table
+    
+    def wait_for_result(query_job):
+        try:
+         # print(query_job.done())
+            while query_job.done() != True:
+                logging.info(f"Waiting for query job {query_job.job_id} to complete")
+
+            if query_job.errors:
+                raise GoogleAPIError(query_job.errors)
+            
+            return query_job
+        
+        except GoogleAPIError as e:
+            logging.error(f"An error occurred: {e}")    
+        
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+
 
     def query(self, query):
         """
@@ -88,10 +108,32 @@ class BigQueryClient:
             google.cloud.bigquery.job.QueryJob: The query job.
         """
         query_job = self.client.query(query)
-        results = query_job.result()
-        for row in results:
-            print(row)
-        return results
+        return query_job
+        # results = query_job.result()
+        # for row in results:
+        #     print(row)
+        # return results
+
+    def query_and_wait(self,query):
+
+        
+        try:
+            query_job = self.client.query(query)
+         # print(query_job.done())
+            while query_job.done() != True:
+                logging.info(f"Waiting for query job {query_job.job_id} to complete")
+
+            if query_job.errors:
+                raise GoogleAPIError(query_job.errors)
+            
+            return query_job
+        
+        except GoogleAPIError as e:
+            logging.error(f"An error occurred: {e}")    
+        
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+        
 
     def load_data_from_json(self, dataset_id, table_id, json_data, schema):
         """
