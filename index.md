@@ -1,93 +1,77 @@
-+++
-title =  "Creating a GCP Client Tool"
-date = "2024-04-27"
-description = "GCP Submodules for repetitive tasks"
-author = "Justin Napolitano"
-tags = ['git', 'python', 'submodules', 'automation','workflow']
-images = ["images/feature-gcp.png"]
-+++
+---
+slug: "github-gcputils"
+title: "gcputils"
+repo: "justin-napolitano/gcputils"
+githubUrl: "https://github.com/justin-napolitano/gcputils"
+generatedAt: "2025-11-23T09:00:10.678718Z"
+source: "github-auto"
+---
 
 
-# Creating a GCP Client Tool in Python
+# gcputils: A Reusable Python Submodule for Google Cloud Platform Clients
 
-## Why
+## Motivation
 
-I often find myself reuuing the same bits of code when working with GCP. It is very important to avoid creating multiple development trees of the same classes. I have done this before for large projects. It will lead to a very difficult to maintain stack of tools that will spaghettify over time. 
+Working with Google Cloud Platform (GCP) services frequently involves repetitive boilerplate code to initialize clients, handle authentication, and perform common operations. Over time, duplicating these snippets across projects leads to maintenance challenges and inconsistent implementations. This project, `gcputils`, addresses that by consolidating reusable GCP client wrappers into a single Python submodule.
 
+## Problem Statement
 
-## Creating the submodule
+Developers often face the problem of managing multiple development trees containing similar GCP client code. This redundancy complicates updates, debugging, and scaling. Without a centralized utility, projects risk diverging implementations and technical debt.
 
-### Create an empty directory 
+## Solution Overview
 
-```bash
-mkdir gcpuptils
-```
+`gcputils` provides lightweight Python classes encapsulating clients for key GCP services:
 
-### Add the following code to a gcpclient.py file
- 
-[github link to latest file](https://github.com/justin-napolitano/gcputils/blob/main/gcpclient.py) is the link to the `gcpclient.py` file on GitHub.
+- **BigQueryClient**: Simplifies dataset creation and table existence checks.
+- **GCSClient**: Manages Google Cloud Storage buckets, including listing and creation.
+- **GoogleCloudLogging**: Integrates Python logging with Google Cloud Logging.
+- **GoogleSecretManager**: Accesses secrets securely from Google Secret Manager.
 
+Each class handles client initialization with optional service account credentials, defaulting to environment-based authentication if credentials are not provided.
 
-###  Initialize like usual 
+## Implementation Details
 
-1. Run ```git init && git add . && git commit -m 'init'```
-2. run ```gh repo create``` and follow the prompts
-3. run ``` git push``` and follow the prompts
+### Authentication
 
+Each client class accepts a `project_id` and an optional `credentials_path`. If a credentials JSON file path is supplied, clients instantiate using service account credentials. Otherwise, they rely on the default credentials available in the environment, supporting flexible deployment scenarios.
 
+### BigQueryClient
 
-## Importing into your project
+- Uses the `google.cloud.bigquery` library.
+- Supports dataset creation with location specification.
+- Includes a method stub for checking table existence (implementation not fully shown).
 
-In my example i created a repo at ```https://github.com/justin-napolitano/gcputils.git```
+### GCSClient
 
-Run the following to import the latest repo into your current project. 
+- Wraps `google.cloud.storage` client.
+- Provides methods to list all buckets and create buckets if they don't already exist.
+- Uses bucket existence checks before creation to avoid errors.
 
-```bash
-git submodule add -b pit https://github.com/justin-napolitano/gcputils.git
+### GoogleCloudLogging
 
-``` 
+- Wraps `google.cloud.logging` client.
+- Sets up logging handlers to integrate Python's standard logging with Google Cloud Logging.
+- Supports logging messages with configurable severity levels.
 
-The benefit of doing this is that the code can be reused across every project without having to worry about broken development tress.  
+### GoogleSecretManager
 
+- Uses `google.cloud.secretmanager` client.
+- Retrieves secret payloads as strings from specified secret versions.
+- Requires `project_id` either passed explicitly or set via environment variable `PROJECT_NAME`.
 
-## Using Google Cloud Storage for Python
+## Practical Considerations
 
-Documentation Source: ```https://cloud.google.com/python/docs/reference/storage/latest```
+- The repository is designed as a Git submodule, facilitating reuse across multiple projects without code duplication.
+- Installation instructions and usage examples are provided in the README and markdown documentation files.
+- The code emphasizes minimal dependencies and straightforward client wrappers to reduce complexity.
 
-### Install Google Cloud Storage for Python
+## Limitations and Future Work
 
-Run the following 
-```bash 
-pip install google-cloud-storage
-```
+- Some methods, such as `table_exists` in `BigQueryClient`, are incomplete and require implementation.
+- Error handling is minimal; expanding this would improve robustness.
+- Additional GCP services could be wrapped to extend utility.
+- Integration tests and CI/CD pipelines are not included but would enhance reliability.
 
-### Create the Credentials File for the Application
+## Conclusion
 
-src = ```https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-python```
-
-Run the following and follow the prompts
-
-```bash
-gcloud auth application-default login
-```
-
-
-
-## Initializing a client and creating a bucket to test
-
-Source : ```https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.client.Client```
-
-```python
-project_id = '{YOUR PROJECT}'
-gcs = GCSClient(project_id, credentials_path=None)
-
-# List buckets to test client authorization
-buckets = gcs.list_buckets()
-print("Buckets:", buckets)
-
-# creating a new bucket if it doesn't exist
-bucket_name = "loc-scraper"
-
-bucket = gcs.create_bucket(bucket_name=bucket_name)
-print(bucket)
-```
+`gcputils` serves as a practical toolkit for developers working with Google Cloud Platform services in Python. By centralizing client initialization and common operations, it reduces redundant code and eases maintenance. While currently focused on core services, it provides a foundation for expanding reusable GCP utilities in Python projects.
