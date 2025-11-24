@@ -1,12 +1,30 @@
 ---
-slug: "github-gcputils"
-title: "gcputils"
-repo: "justin-napolitano/gcputils"
-githubUrl: "https://github.com/justin-napolitano/gcputils"
-generatedAt: "2025-11-23T09:00:10.678718Z"
-source: "github-auto"
+slug: github-gcputils
+title: 'gcputils: Python Submodule for Reusable Google Cloud Platform Clients'
+repo: justin-napolitano/gcputils
+githubUrl: https://github.com/justin-napolitano/gcputils
+generatedAt: '2025-11-23T09:00:10.678718Z'
+source: github-auto
+summary: >-
+  A Python submodule providing lightweight client wrappers for key Google Cloud services including
+  BigQuery, Cloud Storage, Logging, and Secret Manager.
+tags:
+  - python
+  - google-cloud-platform
+  - bigquery
+  - google-cloud-storage
+  - google-cloud-logging
+  - google-secret-manager
+seoPrimaryKeyword: gcputils
+seoSecondaryKeywords:
+  - google cloud platform clients
+  - python gcp utilities
+  - bigquery client
+  - gcs client
+  - cloud logging
+  - secret manager
+seoOptimized: true
 ---
-
 
 # gcputils: A Reusable Python Submodule for Google Cloud Platform Clients
 
