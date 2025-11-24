@@ -24,6 +24,14 @@ seoSecondaryKeywords:
   - cloud logging
   - secret manager
 seoOptimized: true
+topicFamily: devtools
+topicFamilyConfidence: 0.9
+topicFamilyNotes: >-
+  The post describes a reusable Python submodule wrapping Google Cloud clients aimed at improving
+  development workflows and client initialization. This matches well with the 'devtools' family's
+  focus on development environment setup and tooling. The example slugs and suggested tags include
+  'github-gcputils', which directly confirms this categorization. While the post involves some
+  automation aspects, it's primarily a development utility rather than a general automation script.
 ---
 
 # gcputils: A Reusable Python Submodule for Google Cloud Platform Clients
@@ -93,3 +101,4 @@ Each client class accepts a `project_id` and an optional `credentials_path`. If 
 ## Conclusion
 
 `gcputils` serves as a practical toolkit for developers working with Google Cloud Platform services in Python. By centralizing client initialization and common operations, it reduces redundant code and eases maintenance. While currently focused on core services, it provides a foundation for expanding reusable GCP utilities in Python projects.
+
