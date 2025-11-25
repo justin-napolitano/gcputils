@@ -7,8 +7,8 @@ githubUrl: https://github.com/justin-napolitano/gcputils
 generatedAt: '2025-11-24T21:34:53.066Z'
 source: github-auto
 summary: >-
-  A Python library that provides reusable clients for Google Cloud services like
-  BigQuery and Cloud Storage to streamline development.
+  A Python library that provides reusable clients for Google Cloud services like BigQuery and Cloud
+  Storage to streamline development.
 tags:
   - python
   - google-cloud-storage
@@ -23,8 +23,8 @@ seoSecondaryKeywords:
   - secret manager access
   - python gcp utilities
 seoOptimized: true
-topicFamily: null
-topicFamilyConfidence: null
+topicFamily: devtools
+topicFamilyConfidence: 0.9
 kind: project
 entryLayout: project
 showInProjects: true
@@ -115,3 +115,4 @@ Refer to each client class for available methods.
 ---
 
 *Note: This repository is intended as a reusable submodule for GCP client utilities to avoid code duplication across projects.*
+
