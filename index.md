@@ -1,13 +1,13 @@
 ---
 slug: github-gcputils
-title: 'gcputils: Python Submodule for Reusable Google Cloud Platform Clients'
+title: Reusable Python Submodule for Google Cloud Clients
 repo: justin-napolitano/gcputils
 githubUrl: https://github.com/justin-napolitano/gcputils
 generatedAt: '2025-11-23T09:00:10.678718Z'
 source: github-auto
 summary: >-
-  A Python submodule providing lightweight client wrappers for key Google Cloud services including
-  BigQuery, Cloud Storage, Logging, and Secret Manager.
+  Explore gcputils, a Python submodule that simplifies GCP client management and
+  reduces boilerplate code for developers.
 tags:
   - python
   - google-cloud-platform
@@ -15,23 +15,28 @@ tags:
   - google-cloud-storage
   - google-cloud-logging
   - google-secret-manager
-seoPrimaryKeyword: gcputils
+  - gcs
+seoPrimaryKeyword: google cloud python client utilities
 seoSecondaryKeywords:
-  - google cloud platform clients
-  - python gcp utilities
-  - bigquery client
-  - gcs client
-  - cloud logging
-  - secret manager
+  - gcp client library
+  - python gcp integration
+  - google cloud storage client
+  - bigquery python wrapper
+  - secret manager access
+  - logging with google cloud
 seoOptimized: true
 topicFamily: devtools
 topicFamilyConfidence: 0.9
 topicFamilyNotes: >-
-  The post describes a reusable Python submodule wrapping Google Cloud clients aimed at improving
-  development workflows and client initialization. This matches well with the 'devtools' family's
-  focus on development environment setup and tooling. The example slugs and suggested tags include
-  'github-gcputils', which directly confirms this categorization. While the post involves some
-  automation aspects, it's primarily a development utility rather than a general automation script.
+  The post describes a reusable Python submodule wrapping Google Cloud clients
+  aimed at improving development workflows and client initialization. This
+  matches well with the 'devtools' family's focus on development environment
+  setup and tooling. The example slugs and suggested tags include
+  'github-gcputils', which directly confirms this categorization. While the post
+  involves some automation aspects, it's primarily a development utility rather
+  than a general automation script.
+kind: project
+id: github-gcputils
 ---
 
 # gcputils: A Reusable Python Submodule for Google Cloud Platform Clients
