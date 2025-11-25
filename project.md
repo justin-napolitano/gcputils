@@ -8,7 +8,7 @@ generatedAt: '2025-11-24T21:34:53.066Z'
 source: github-auto
 summary: >-
   A Python library that provides reusable clients for Google Cloud services like
-  BigQuery and Cloud Storage, streamlining GCP development.
+  BigQuery and Cloud Storage to streamline development.
 tags:
   - python
   - google-cloud-storage
@@ -18,10 +18,10 @@ tags:
 seoPrimaryKeyword: google cloud platform python utility
 seoSecondaryKeywords:
   - gcp client library
+  - bigquery client
+  - cloud storage management
+  - secret manager access
   - python gcp utilities
-  - bigquery client python
-  - cloud storage python client
-  - secret manager python
 seoOptimized: true
 topicFamily: null
 topicFamilyConfidence: null
