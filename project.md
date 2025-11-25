@@ -1,20 +1,28 @@
 ---
 slug: github-gcputils
 id: github-gcputils
-title: gcputils
+title: Python Utility Library for Google Cloud Platform Services
 repo: justin-napolitano/gcputils
 githubUrl: https://github.com/justin-napolitano/gcputils
 generatedAt: '2025-11-24T21:34:53.066Z'
 source: github-auto
 summary: >-
-  A Python utility library providing reusable clients for Google Cloud Platform
-  services including BigQuery, Cloud Storage, Cloud Logging, and Secret Manager.
-  Designed to streamline development by consolidating common GCP client code
-  into a single submodule.
-tags: []
-seoPrimaryKeyword: ''
-seoSecondaryKeywords: []
-seoOptimized: false
+  A Python library that provides reusable clients for Google Cloud services like
+  BigQuery and Cloud Storage, streamlining GCP development.
+tags:
+  - python
+  - google-cloud-storage
+  - google-cloud-bigquery
+  - google-cloud-logging
+  - google-cloud-secret-manager
+seoPrimaryKeyword: google cloud platform python utility
+seoSecondaryKeywords:
+  - gcp client library
+  - python gcp utilities
+  - bigquery client python
+  - cloud storage python client
+  - secret manager python
+seoOptimized: true
 topicFamily: null
 topicFamilyConfidence: null
 kind: project
